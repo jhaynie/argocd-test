@@ -9,15 +9,15 @@ spec:
           - git:
               repoURL: https://github.com/jhaynie/argocd-test.git
               revision: HEAD
-              directories:
+              files:
                 - path: argo/addons/*
-          - clusters:
-              selector:
-                matchLabels:
-                  argocd.argoproj.io/secret-type: cluster
+          - list:
+              elements:
+                - cluster: dev
+                  url: https://kubernetes.default.svc
   template:
     metadata:
-      name: "{{path.basename}}-{{name}}"
+      name: "{{path[0]}}"
     spec:
       project: "{{metadata.labels.environment}}"
       source:
@@ -25,5 +25,7 @@ spec:
         targetRevision: HEAD
         path: "{{path}}"
       destination:
-        server: "{{server}}"
-        namespace: "{{path.basename}}"
+        server: "{{url}}"
+        namespace: "{{path[0]}}"
+      syncPolicy:
+        automated: {}
