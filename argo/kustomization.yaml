@@ -1,0 +1,4 @@
+resources:
+  - argo.yaml
+  - platform.yaml
+  - apps.yaml
