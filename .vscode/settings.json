@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/rancher/k3d/main/pkg/config/config.versions.schema.json": "file:///Users/jhaynie/work/argo/argo/addons/prometheus.yaml"
+  }
+}

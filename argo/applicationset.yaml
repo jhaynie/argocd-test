@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: argo
+spec:
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: https://github.com/jhaynie/argocd-test.git
+              revision: HEAD
+              directories:
+                - path: argo/addons/*
+          - clusters:
+              selector:
+                matchLabels:
+                  argocd.argoproj.io/secret-type: cluster
+  template:
+    metadata:
+      name: "{{path.basename}}-{{name}}"
+    spec:
+      project: "{{metadata.labels.environment}}"
+      source:
+        repoURL: https://github.com/jhaynie/argocd-test.git
+        targetRevision: HEAD
+        path: "{{path}}"
+      destination:
+        server: "{{server}}"
+        namespace: "{{path.basename}}"
